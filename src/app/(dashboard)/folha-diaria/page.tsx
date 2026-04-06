@@ -307,47 +307,51 @@ export default function FolhaDiariaPage() {
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="px-5 py-3.5 border-b border-gray-50 flex items-center justify-between">
                 <p className="text-sm font-semibold text-gray-700">Despesas — {obra?.nome}</p>
-                <button
-                  onClick={() => setLinhas(p => [...p, novaLinha()])}
-                  className="flex items-center gap-1.5 text-xs font-medium text-orange-500 hover:text-orange-600"
-                >
-                  <Plus className="w-3.5 h-3.5" /> Adicionar linha
-                </button>
+                <span className="text-xs text-gray-400">{linhas.length} linha{linhas.length !== 1 ? 's' : ''}</span>
               </div>
 
-              {/* Cabeçalho colunas */}
-              <div className="grid grid-cols-[160px_1fr_100px_36px] gap-2 px-5 pt-3 pb-1">
-                <p className="text-xs font-medium text-gray-400">Categoria</p>
-                <p className="text-xs font-medium text-gray-400">Descrição</p>
-                <p className="text-xs font-medium text-gray-400">Valor (€)</p>
-                <span />
-              </div>
-
-              <ul className="px-4 pb-3 space-y-2">
+              {/* Lista de despesas — cards empilhados */}
+              <ul className="px-4 pt-3 pb-2 space-y-3">
                 {linhas.map((l, i) => (
-                  <li key={l.id}>
-                    <div className="grid grid-cols-[160px_1fr_100px_36px] gap-2 items-center">
+                  <li key={l.id} className="bg-gray-50 rounded-2xl p-3 space-y-2.5">
+                    {/* Linha 1: número + categoria + botão remover */}
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center flex-shrink-0">
+                        {i + 1}
+                      </span>
                       <select
                         value={l.categoria}
                         onChange={e => updateLinha(l.id, 'categoria', e.target.value)}
-                        className="w-full px-2 py-2 rounded-xl border border-gray-200 bg-gray-50 text-xs focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="flex-1 px-2.5 py-2 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                       >
                         {CATEGORIAS_DESPESA.map(c => <option key={c} value={c}>{c}</option>)}
                       </select>
+                      <button
+                        onClick={() => removeLinha(l.id)}
+                        disabled={linhas.length === 1}
+                        className="flex items-center justify-center w-8 h-8 rounded-xl text-gray-300 hover:text-red-500 hover:bg-red-100 transition-colors disabled:opacity-20 disabled:cursor-not-allowed flex-shrink-0"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
 
-                      <div>
-                        <input
-                          type="text"
-                          value={l.descricao}
-                          onChange={e => updateLinha(l.id, 'descricao', e.target.value)}
-                          placeholder="Ex: Cimento, ferragens…"
-                          className={`w-full px-3 py-2 rounded-xl border text-xs focus:outline-none focus:ring-2 focus:ring-orange-400 ${
-                            errosE[l.id] ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-gray-50'
-                          }`}
-                        />
-                        {errosE[l.id] && <p className="text-xs text-red-500 mt-0.5 pl-1">{errosE[l.id]}</p>}
-                      </div>
+                    {/* Linha 2: descrição (largura total) */}
+                    <div>
+                      <input
+                        type="text"
+                        value={l.descricao}
+                        onChange={e => updateLinha(l.id, 'descricao', e.target.value)}
+                        placeholder="Descrição da despesa…"
+                        className={`w-full px-3 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 ${
+                          errosE[l.id] ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white'
+                        }`}
+                      />
+                      {errosE[l.id] && <p className="text-xs text-red-500 mt-1 pl-1">{errosE[l.id]}</p>}
+                    </div>
 
+                    {/* Linha 3: valor */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-400 font-medium pl-1">€</span>
                       <input
                         type="number"
                         min="0.01"
@@ -355,28 +359,20 @@ export default function FolhaDiariaPage() {
                         value={l.valor}
                         onChange={e => updateLinha(l.id, 'valor', e.target.value)}
                         placeholder="0,00"
-                        className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 text-xs focus:outline-none focus:ring-2 focus:ring-orange-400 text-right"
+                        className="flex-1 px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-400"
                       />
-
-                      <button
-                        onClick={() => removeLinha(l.id)}
-                        disabled={linhas.length === 1}
-                        className="flex items-center justify-center w-8 h-8 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
                     </div>
                   </li>
                 ))}
               </ul>
 
-              {/* Botão adicionar linha (mobile) */}
+              {/* Botão adicionar linha */}
               <div className="px-4 pb-3">
                 <button
                   onClick={() => setLinhas(p => [...p, novaLinha()])}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 border-dashed border-gray-200 text-xs font-medium text-gray-400 hover:border-orange-300 hover:text-orange-500 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm font-medium text-gray-400 hover:border-orange-300 hover:text-orange-500 transition-colors"
                 >
-                  <Plus className="w-3.5 h-3.5" /> Adicionar linha
+                  <Plus className="w-4 h-4" /> Adicionar despesa
                 </button>
               </div>
 

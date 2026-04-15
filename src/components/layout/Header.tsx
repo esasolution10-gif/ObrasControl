@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, LogOut, LayoutDashboard, Building2, Users, Wallet, CalendarCheck, PaintBucket } from 'lucide-react'
+import { Menu, X, LogOut, LayoutDashboard, Building2, Users, Wallet, CalendarCheck, PaintBucket, FileText } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 import { getInitials } from '@/utils/format'
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { href: '/trabalhadores', label: 'Trabalhadores', icon: Users },
   { href: '/folha-diaria',  label: 'Folha Diária',  icon: CalendarCheck },
   { href: '/financeiro',    label: 'Financeiro',    icon: Wallet },
+  { href: '/orcamentos',    label: 'Orçamentos',    icon: FileText },
 ]
 
 export function Header() {
@@ -128,7 +129,7 @@ export function Header() {
                   'text-[10px] font-medium leading-tight',
                   active ? 'text-orange-600' : 'text-gray-400'
                 )}>
-                  {item.label === 'Trabalhadores' ? 'Equipa' : item.label === 'Folha Diária' ? 'Folha' : item.label}
+                  {item.label === 'Trabalhadores' ? 'Equipa' : item.label === 'Folha Diária' ? 'Folha' : item.label === 'Orçamentos' ? 'Orçam.' : item.label}
                 </span>
               </Link>
             )

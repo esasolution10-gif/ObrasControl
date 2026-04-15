@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Building2, Users, Wallet, LogOut, PaintBucket, CalendarCheck } from 'lucide-react'
+import { LayoutDashboard, Building2, Users, Wallet, LogOut, PaintBucket, CalendarCheck, FileText } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 import { getInitials } from '@/utils/format'
@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { href: '/trabalhadores', label: 'Trabalhadores',  icon: Users },
   { href: '/folha-diaria',  label: 'Folha Diária',   icon: CalendarCheck },
   { href: '/financeiro',    label: 'Financeiro',     icon: Wallet },
+  { href: '/orcamentos',    label: 'Orçamentos',     icon: FileText },
 ]
 
 export function Sidebar() {

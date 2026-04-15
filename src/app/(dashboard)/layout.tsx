@@ -2,10 +2,11 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuthStore } from '@/store/authStore'
-import { useObraStore } from '@/store/obraStore'
+import { useAuthStore }      from '@/store/authStore'
+import { useObraStore }      from '@/store/obraStore'
 import { useTrabalhadorStore } from '@/store/trabalhadorStore'
 import { useFinanceiroStore } from '@/store/financeiroStore'
+import { useOrcamentoStore } from '@/store/orcamentoStore'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
 
@@ -16,6 +17,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const initObras        = useObraStore(s => s.init)
   const initTrabalhador  = useTrabalhadorStore(s => s.init)
   const initFinanceiro   = useFinanceiroStore(s => s.init)
+  const initOrcamentos   = useOrcamentoStore(s => s.init)
 
   // Verifica sessão Supabase uma única vez
   useEffect(() => { authInit() }, [authInit])
@@ -26,8 +28,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       initObras()
       initTrabalhador()
       initFinanceiro()
+      initOrcamentos()
     }
-  }, [isLoggedIn, initObras, initTrabalhador, initFinanceiro])
+  }, [isLoggedIn, initObras, initTrabalhador, initFinanceiro, initOrcamentos])
 
   // Redireciona se não autenticado (após checar sessão)
   useEffect(() => {

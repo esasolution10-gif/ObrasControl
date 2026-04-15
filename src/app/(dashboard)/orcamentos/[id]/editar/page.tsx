@@ -1,11 +1,10 @@
 'use client'
 
-import { use } from 'react'
 import { useOrcamentoStore } from '@/store/orcamentoStore'
 import OrcamentoForm from '../../_components/OrcamentoForm'
 
-export default function EditarOrcamentoPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id }      = use(params)
+export default function EditarOrcamentoPage({ params }: { params: { id: string } }) {
+  const { id }      = params
   const getById     = useOrcamentoStore(s => s.getById)
   const loading     = useOrcamentoStore(s => s.loading)
   const initialized = useOrcamentoStore(s => s.initialized)

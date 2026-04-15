@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ArrowLeft, Edit, Download, Eye, Copy, Trash2,
@@ -43,8 +43,8 @@ const STATUS_TRANSITIONS: Record<StatusOrcamento, StatusOrcamento[]> = {
 
 // ── Página ─────────────────────────────────────────────────────────────────
 
-export default function OrcamentoDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id }      = use(params)
+export default function OrcamentoDetailPage({ params }: { params: { id: string } }) {
+  const { id }      = params
   const router      = useRouter()
   const getById     = useOrcamentoStore(s => s.getById)
   const loading     = useOrcamentoStore(s => s.loading)
